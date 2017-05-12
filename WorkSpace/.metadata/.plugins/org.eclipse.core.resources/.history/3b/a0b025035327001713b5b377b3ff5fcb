@@ -1,0 +1,47 @@
+package com.iii.bb101.james_homework;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class HW_2 {
+	public static void main(String[] args) throws IOException {
+
+		String connUrl = "jdbc:mysql://localhost:3306/jdbc?useSSL=false";
+		try (Connection conn = DriverManager.getConnection(connUrl, "root", "abcdggd123");) {
+
+			String insStmt = "INSERT INTO employee VALUES(?, ?, ?, ?, ?, ?)";
+			PreparedStatement pstmt = conn.prepareStatement(insStmt);
+
+			String path = "./emp.txt";
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			String row;
+			int counter = 0;
+			while ((row = br.readLine()) != null) {
+				System.out.println(row);
+				String[] row_array = row.split(",");					
+				
+				for (int i = 0; i < row_array.length-1; i++) {
+					String str = row_array[i];
+					pstmt.setString((i + 1), str);
+					pstmt.addBatch();
+					System.out.println((i + 1)+","+ str);
+					
+					counter++;										
+					if (counter == 2) {
+						pstmt.executeBatch();
+						counter = 0;
+					}
+				}	
+				pstmt.executeBatch();
+			}
+			pstmt.executeBatch();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+}

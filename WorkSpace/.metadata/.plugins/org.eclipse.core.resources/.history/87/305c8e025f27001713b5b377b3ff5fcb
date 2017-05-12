@@ -1,0 +1,20 @@
+package com.iii.bb101.james_homework;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class HW_3 {
+
+	public static void main(String[] args) {
+
+		String url = "jdbc:mysql://localhost:3306/jdbc?useSSL=false";
+		try (Connection conn = DriverManager.getConnection(url, "root", "abcdggd123");) {
+
+			String insStmt = ""
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

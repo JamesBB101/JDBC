@@ -1,0 +1,43 @@
+package com.iii.bb101.james;
+
+import java.sql.*;
+
+public class SQLExceptionDemo2 {
+	public static void main(String[] args) {
+		String url = "jdbc:mysql://localhost:3306/jdbc?useSSL=false";
+		String DatabaseProductName = "";
+		try(Connection conn = DriverManager.getConnection(url, "root", "abcdggd123");) {
+			
+			DatabaseMetaData dbmd = conn.getMetaData();
+			DatabaseProductName = dbmd.getDatabaseProductName();
+			
+			String qryStmt = "SELECT * FROM employe"; // error here
+			PreparedStatement stmt = conn.prepareStatement(qryStmt);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				System.out.println("name = " + rs.getString("ename"));
+				System.out.printf("salary =" + rs.getDouble("salary"));
+			}
+		} catch (SQLException e) {
+			System.out.println("Message : " + e.getMessage());
+			System.out.println("Vendor code : " + e.getErrorCode()); 
+			 //每個資料庫的錯誤戴瑪都不一樣  要如何出現相同錯誤訊息
+			switch(DatabaseProductName){
+			case "MySQL" :
+				if(e.getErrorCode()==1146)
+				System.out.println("columnName doesn't exist");
+				break;
+			case "Oracle" :
+				if(e.getErrorCode()==1234)
+				System.out.println("columnName doesn't exist");
+				break;
+			case "SQL" :
+				if(e.getErrorCode()==5678)
+				System.out.println("columnName doesn't exist");
+				break;
+			default:
+				System.out.println(" ");
+			}
+		} 
+	}// end of main()
+}// end of class SQLExceptionDemo

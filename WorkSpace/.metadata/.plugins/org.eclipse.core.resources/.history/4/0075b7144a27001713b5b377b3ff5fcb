@@ -1,0 +1,70 @@
+package com.iii.bb101.james_;
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+
+public class w {
+
+	public static void main(String[] args) {
+		
+		try(Connection conn = DriverManager.getConnection(SQLInfo.getConnUrl(), SQLInfo.getAccount(), SQLInfo.getPasswd());){
+			
+			String qryStmt = "SELECT * FROM employee";
+			PreparedStatement pstmt = conn.prepareStatement(qryStmt);
+			ResultSet rs = pstmt.executeQuery();
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int count = rsmd.getColumnCount();
+			
+			OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream("./hw2.dat", true), "UTF-8");
+			BufferedWriter bw = new BufferedWriter(osw);
+			StringBuilder sb = new StringBuilder();			
+			
+			for (int i = 1 ; i < count; i++){
+				sb.append(rsmd.getColumnLabel(i) + "(" + rsmd.getColumnType(i) + ", "
+						+ rsmd.getColumnTypeName(i)+"), ");
+			}
+			sb.append("\n");   // next line
+			bw.write(sb.toString()); // write header to file
+			
+			while (rs.next()){
+				StringBuilder sb1 = new StringBuilder();
+				for(int i = 1; i <= count ; i++){
+	         		sb1.append(rs.getString(i) + ", ");
+				}
+				sb1.append("\n"); // next line
+				bw.write(sb1.toString()); // write each row to file
+			}		
+			
+			bw.close();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (IOException ie) { 
+			ie.printStackTrace();
+		}
+	}
+}
+
+class SQLInfo{
+	static String getConnUrl(){
+		String url = "jdbc:mysql://localhost:3306/jdbc?useSSL=false";
+		return url;
+	}
+	static String getAccount(){
+		String user = "root";
+		return user;
+	}
+	static String getPasswd(){
+		String passwd = "abcdggd123";
+		return passwd;
+	}
+}

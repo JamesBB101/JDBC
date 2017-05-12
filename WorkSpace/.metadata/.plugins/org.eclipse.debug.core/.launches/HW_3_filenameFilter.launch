@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Advanced/src/com/iii/bb101/james_homework/HW_3_filenameFilter.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.iii.bb101.james_homework.HW_3_filenameFilter"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Advanced"/>
+</launchConfiguration>

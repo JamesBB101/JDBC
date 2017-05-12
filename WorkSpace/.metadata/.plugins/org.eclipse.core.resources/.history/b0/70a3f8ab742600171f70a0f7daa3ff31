@@ -1,0 +1,25 @@
+package com.iii.bb101.james_homework;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class HW {
+
+	public static void main(String[] args) {
+
+		String url = "jdbc:mysql://localhost:3306/jdbc?useSSL=false";
+		try (Connection conn = DriverManager.getConnection(url, "root", "abcdggd123");) {
+
+			String qryStmt = "SELECT * FROM employee";
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(qryStmt);
+					
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+}
